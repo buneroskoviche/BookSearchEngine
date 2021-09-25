@@ -17,6 +17,15 @@ const typeDefs = gql`
         password: String
         savedBooks: [Book]
     }
+
+    type Auth {
+        token: ID!
+        user: User
+    }
+
+    type Query {
+        user: User
+    }
 `;
 
 module.exports = typeDefs;
