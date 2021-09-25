@@ -2,7 +2,9 @@ const { Book, User } = require('../models');
 
 const resolvers = {
     Query: {
-        something: 0,
+        user: async (parent, { _id }) => {
+            return User.findById(_id).populate('savedBooks')
+        }
     }
 }
 
