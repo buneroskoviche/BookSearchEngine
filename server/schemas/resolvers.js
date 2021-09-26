@@ -5,10 +5,18 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
         me: async (req, {id}) => {
-            return User.findOne({_id: id}).populate('savedBooks')
+            try {
+                return User.findOne({_id: id}).populate('savedBooks')
+            } catch (e) {
+                console.log(e)
+            }
         },
         users: async () => {
-            return User.find().populate('savedBooks')
+            try {
+                return User.find().populate('savedBooks')
+            } catch (e) {
+                console.log(e)
+            }
         }
     },
 
