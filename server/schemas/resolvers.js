@@ -42,11 +42,11 @@ const resolvers = {
                 console.log(e);
             }
         },
-        deleteBook: async({user, params}, res) => {
+        deleteBook: async(req, {id, bookId}) => {
             try {
                 return User.findOneAndUpdate(
-                    {_id: user._id},
-                    { $pull: { savedBooks: {bookId: params.bookId} }},
+                    {_id: id},
+                    { $pull: { savedBooks: {bookId: bookId} }},
                     { new: true},
                 );
             } catch (e) {
