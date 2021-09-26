@@ -8,18 +8,16 @@ import { GET_ME } from '../utils/queries';
 import { DELETE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+  // create deleteBook mutation
+  const [removeBook, {error}] = useMutation(DELETE_BOOK);
 
   // load user data from the token
   const profile = Auth.getProfile();
   const userId = profile.data._id
   // fetch user data from graphql
   const {loading, data} = useQuery(GET_ME, {
-    variables: {id: userId}
+    variables: {id: userId},
   });
-  
-  // create deleteBook mutation
-  const [removeBook, {error}] = useMutation(DELETE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -33,11 +31,11 @@ const SavedBooks = () => {
       const response = await removeBook({
         variables: {id: userId, bookId: bookId}
       });
-      console.log(response)
-      removeBookId(bookId)
       if (!response) {
         throw new Error('something went wrong!');
       }
+      removeBookId(bookId)
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
