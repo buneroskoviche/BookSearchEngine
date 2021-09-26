@@ -70,11 +70,6 @@ const SearchBooks = () => {
     }
 
     try {
-      // const response = await saveBook(bookToSave, token);
-
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
       const response = await addBook({
         variables: { input: bookToSave, id: data._id }
       });
