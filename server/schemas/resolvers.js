@@ -14,21 +14,30 @@ const resolvers = {
 
     Mutation: {
         addUser: async (_parent, args) => {
-            const user = await User.create(args);
-            const token = signToken(user);
-            return { token, user };
+            try {
+                const user = await User.create(args);
+                const token = signToken(user);
+                return { token, user };
+            } catch (e) {;
+                console.log(e);
+            }
         },
         login: async (_parent, {email, password}) => {
-            const user = await User.findOne({email});
-            if(!user) {
-                throw new AuthenticationError('Could not find that user.');
+            try {
+                const user = await User.findOne({email});
+                if(!user) {
+                    throw new AuthenticationError('Could not find that user.');
+                }
+                const passCheck = await user.isCorrectPassword(password);
+                if(!passCheck) {
+                    throw new AuthenticationError('Email or password incorrect.');
+                }
+                const token = signToken(user);
+                return {token, user};
+            } catch (e) {
+                console.log(e);
             }
-            const passCheck = await user.isCorrectPassword(password);
-            if(!passCheck) {
-                throw new AuthenticationError('Email or password incorrect.');
-            }
-            const token = signToken(user);
-            return {token, user};
+            
         },
         saveBook: async (_, {id, input}) => {
             try {
