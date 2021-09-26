@@ -10,7 +10,6 @@ import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 
 const SavedBooks = () => {
-  console.log('I am the params', useParams())
   const [userData, setUserData] = useState({});
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
